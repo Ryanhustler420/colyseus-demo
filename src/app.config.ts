@@ -1,4 +1,5 @@
 import config from "@colyseus/tools";
+import { RedisPresence } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 import { playground } from "@colyseus/playground";
 
@@ -7,9 +8,12 @@ import { playground } from "@colyseus/playground";
  */
 import { MyRoom } from "./rooms/MyRoom";
 
+const redisUrl = "redis://default:QBXjdPGbY2FmkFhSCCU4CwEPTykkQNt9@redis-12768.c239.us-east-1-2.ec2.redns.redis-cloud.com:12768";
+
 export default config({
 
     options: {
+        presence: new RedisPresence(redisUrl),
         devMode: false,
     },
 
