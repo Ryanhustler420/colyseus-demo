@@ -1,19 +1,17 @@
 import config from "@colyseus/tools";
-import { RedisPresence } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 import { playground } from "@colyseus/playground";
 
 /**
  * Import your Room files
  */
-import { MyRoom } from "./rooms/MyRoom";
-
-const redisUrl = "redis://default:QBXjdPGbY2FmkFhSCCU4CwEPTykkQNt9@redis-12768.c239.us-east-1-2.ec2.redns.redis-cloud.com:12768";
+import { LobbyRoom } from "./rooms/LobbyRoom";
+import { Room33Room } from "./rooms/Room33Room";
+import { TypingRoom } from "./rooms/TypingRoom";
 
 export default config({
 
     options: {
-        presence: new RedisPresence(redisUrl),
         devMode: false,
     },
 
@@ -21,8 +19,9 @@ export default config({
         /**
          * Define your room handlers:
          */
-        gameServer.define('my_room', MyRoom);
-
+        gameServer.define('lobby', LobbyRoom, {  }).enableRealtimeListing();
+        gameServer.define('room_33', Room33Room, { }).enableRealtimeListing();
+        gameServer.define('typing_room', TypingRoom, { });
     },
 
     initializeExpress: (app) => {
