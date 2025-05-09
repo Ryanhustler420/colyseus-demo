@@ -46,7 +46,7 @@ export default config({
         gameServer.define('typing_room', TypingRoom, { theme: 'black_forest' });
 
         // Make sure to never call the `simulateLatency()` method in production.
-        if (process.env.NODE_ENV !== "production") { gameServer.simulateLatency(200); }
+        // if (process.env.NODE_ENV !== "production") { gameServer.simulateLatency(200); }
 
         gameServer.onBeforeShutdown(async () => { /* ... custom logic */ });
         gameServer.onShutdown(async () => { /* ... custom logic */ });
