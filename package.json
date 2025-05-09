@@ -35,7 +35,9 @@
     "@colyseus/playground": "^0.16.0",
     "@colyseus/tools": "^0.16.0",
     "@colyseus/uwebsockets-transport": "^0.16.9",
+    "@types/cors": "^2.8.18",
     "colyseus": "^0.16.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2"
   }
 }

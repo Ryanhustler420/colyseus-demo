@@ -1,3 +1,4 @@
+import cors from "cors";
 import config from "@colyseus/tools";
 import { RedisDriver, RedisPresence } from "colyseus";
 import { monitor } from "@colyseus/monitor";
@@ -32,6 +33,10 @@ export default config({
     },
 
     initializeExpress: (app) => {
+        app.use(cors({
+            origin: "*"
+        }))
+
         /**
          * Bind your custom express routes here:
          * Read more: https://expressjs.com/en/starter/basic-routing.html
