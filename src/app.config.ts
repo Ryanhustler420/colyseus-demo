@@ -1,6 +1,6 @@
 import cors from "cors";
 import config from "@colyseus/tools";
-import { RedisDriver, RedisPresence } from "colyseus";
+import { matchMaker, RedisDriver, RedisPresence } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 import { playground } from "@colyseus/playground";
 import { uWebSocketsTransport } from "@colyseus/uwebsockets-transport"
@@ -14,8 +14,15 @@ import { TypingRoom } from "./rooms/TypingRoom";
 export default config({
 
     options: {
+        devMode: false,
+        gracefullyShutdown: true, // default
         // presence: new RedisPresence("redis://default:QBXjdPGbY2FmkFhSCCU4CwEPTykkQNt9@redis-12768.c239.us-east-1-2.ec2.redns.redis-cloud.com:12768"),
         // driver: new RedisDriver("redis://default:QBXjdPGbY2FmkFhSCCU4CwEPTykkQNt9@redis-12768.c239.us-east-1-2.ec2.redns.redis-cloud.com:12768"),
+        selectProcessIdToCreateRoom: async function (roomName: string, clientOptions: any) {
+            return (await matchMaker.stats.fetchAll())
+                .sort((p1, p2) => p1.roomCount > p2.roomCount ? 1 : -1)[0] // might produce error if rooms are empty
+                .processId;
+        }
     },
 
     initializeTransport: () => {
@@ -28,8 +35,21 @@ export default config({
         /**
          * Define your room handlers:
          */
-        gameServer.define('room_33', Room33Room, { }).enableRealtimeListing();
-        gameServer.define('typing_room', TypingRoom, { });
+
+        // gameServer.removeRoomType("room_99"); // usefull sometimes
+        // gameServer.gracefullyShutdown();
+
+        gameServer.define('room_33', Room33Room, { pool_size: 33 })
+            .sortBy({ clients: -1 })
+            .enableRealtimeListing()
+            .filterBy([ "entryFee" ]); // https://docs.colyseus.io/server#definition-options
+        gameServer.define('typing_room', TypingRoom, { theme: 'black_forest' });
+
+        // Make sure to never call the `simulateLatency()` method in production.
+        if (process.env.NODE_ENV !== "production") { gameServer.simulateLatency(200); }
+
+        gameServer.onBeforeShutdown(async () => { /* ... custom logic */ });
+        gameServer.onShutdown(async () => { /* ... custom logic */ });
     },
 
     initializeExpress: (app) => {
