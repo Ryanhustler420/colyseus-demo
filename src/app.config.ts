@@ -2,6 +2,7 @@ import config from "@colyseus/tools";
 import { RedisPresence } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 import { playground } from "@colyseus/playground";
+import { uWebSocketsTransport } from "@colyseus/uwebsockets-transport"
 
 /**
  * Import your Room files
@@ -13,6 +14,12 @@ export default config({
 
     options: {
         // presence: new RedisPresence({ host: "redis", port: 6379 }),
+    },
+
+    initializeTransport: () => {
+        return new uWebSocketsTransport({
+            
+        });
     },
 
     initializeGameServer: (gameServer) => {
