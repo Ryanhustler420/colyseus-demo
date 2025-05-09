@@ -43,8 +43,8 @@ export class TypingRoom extends Room<TypingRoomState> {
     // this.state.players.get(client.sessionId).connected = false;
  
     try {
-        if (consented) throw new Error("consented leave");
-        await this.allowReconnection(client, 20); // allow disconnected client to reconnect into this room until 20 seconds
+        // if (consented) throw new Error("consented leave");
+        // await this.allowReconnection(client, 20); // allow disconnected client to reconnect into this room until 20 seconds
  
         // client returned! let's re-activate it.
         // this.state.players.get(client.sessionId).connected = true;
