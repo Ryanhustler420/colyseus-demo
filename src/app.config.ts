@@ -14,8 +14,8 @@ import { TypingRoom } from "./rooms/TypingRoom";
 export default config({
 
     options: {
-        presence: new RedisPresence("redis://default:QBXjdPGbY2FmkFhSCCU4CwEPTykkQNt9@redis-12768.c239.us-east-1-2.ec2.redns.redis-cloud.com:12768"),
-        driver: new RedisDriver("redis://default:QBXjdPGbY2FmkFhSCCU4CwEPTykkQNt9@redis-12768.c239.us-east-1-2.ec2.redns.redis-cloud.com:12768")
+        // presence: new RedisPresence("redis://default:QBXjdPGbY2FmkFhSCCU4CwEPTykkQNt9@redis-12768.c239.us-east-1-2.ec2.redns.redis-cloud.com:12768"),
+        // driver: new RedisDriver("redis://default:QBXjdPGbY2FmkFhSCCU4CwEPTykkQNt9@redis-12768.c239.us-east-1-2.ec2.redns.redis-cloud.com:12768"),
     },
 
     initializeTransport: () => {
