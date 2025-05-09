@@ -1,25 +1,24 @@
 import config from "@colyseus/tools";
+import { RedisPresence } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 import { playground } from "@colyseus/playground";
 
 /**
  * Import your Room files
  */
-import { LobbyRoom } from "./rooms/LobbyRoom";
 import { Room33Room } from "./rooms/Room33Room";
 import { TypingRoom } from "./rooms/TypingRoom";
 
 export default config({
 
     options: {
-        devMode: false,
+        // presence: new RedisPresence({ host: "redis", port: 6379 }),
     },
 
     initializeGameServer: (gameServer) => {
         /**
          * Define your room handlers:
          */
-        gameServer.define('lobby', LobbyRoom, {  }).enableRealtimeListing();
         gameServer.define('room_33', Room33Room, { }).enableRealtimeListing();
         gameServer.define('typing_room', TypingRoom, { });
     },

@@ -1,0 +1,18 @@
+services:
+  colyseus-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    volumes:
+      - /app/node_modules
+      - .:/app
+    ports:
+      - "2567:2567"
+    
+  redis:
+    container_name: redis-server
+    image: redis:7
+    ports:
+      - "6379:6379"

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Typing Game Matchmaking</title>
+</head>
+<body>
+  <h2>Select Entry Fee</h2>
+  <button onclick="joinLobby(33)">₹33</button>
+  <!-- <button onclick="joinLobby(66)">₹66</button>
+  <button onclick="joinLobby(99)">₹99</button> -->
+
+  <h3 id="status"></h3>
+
+  <script src="https://unpkg.com/colyseus.js/dist/colyseus.js"></script>
+  <script>
+    const client = new Colyseus.Client("ws://localhost:2567");
+    let room = null;
+
+    async function joinLobby(amount) {
+      document.getElementById("status").innerText = `Searching for ₹${amount} match...`;
+      try {
+        room = await client.joinOrCreate(`room_${amount}`, { entryFee: amount });
+
+        room.onMessage("match_found", async (message) => {
+          document.getElementById("status").innerText = "Match found! Joining game...";
+          const gameRoom = await client.joinById(message.roomId);
+
+          gameRoom.onMessage("start_game", (data) => {
+            document.getElementById("status").innerText = data.msg;
+          });
+
+          gameRoom.onMessage("game_over", (data) => {
+            document.getElementById("status").innerText = `Game Over! Winner: ${data.winner.sessionId}`;
+          });
+        });
+
+      } catch (err) {
+        console.error("Failed to join lobby:", err);
+        document.getElementById("status").innerText = "Error joining lobby.";
+      }
+    }
+  </script>
+</body>
+</html>
