@@ -20,7 +20,7 @@ export default config({
 
     initializeTransport: () => {
         return new uWebSocketsTransport({
-            
+            sendPingsAutomatically: true,
         });
     },
 
