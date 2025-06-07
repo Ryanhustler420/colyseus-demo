@@ -13,7 +13,7 @@
 
   <script src="https://unpkg.com/colyseus.js/dist/colyseus.js"></script>
   <script>
-    const client = new Colyseus.Client("wss://colyseus-demo.onrender.com");
+    const client = new Colyseus.Client("ws://localhost:2567"); // colyseus-demo.onrender.com
     let room = null;
 
     async function joinLobby(amount) {

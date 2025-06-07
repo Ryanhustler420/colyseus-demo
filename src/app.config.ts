@@ -1,8 +1,9 @@
 import cors from "cors";
+import path from "path";
 import config from "@colyseus/tools";
-import { matchMaker, RedisDriver, RedisPresence } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 import { playground } from "@colyseus/playground";
+import { matchMaker, RedisDriver, RedisPresence } from "colyseus";
 import { uWebSocketsTransport } from "@colyseus/uwebsockets-transport"
 
 /**
@@ -57,6 +58,10 @@ export default config({
             origin: "*"
         }))
 
+        app.get("/", (req, res) => {
+            res.sendFile(path.join(__dirname, "..", "index.html"));
+        });
+
         /**
          * Bind your custom express routes here:
          * Read more: https://expressjs.com/en/starter/basic-routing.html
@@ -70,7 +75,7 @@ export default config({
          * (It is not recommended to expose this route in a production environment)
          */
         if (process.env.NODE_ENV !== "production") {
-            app.use("/", playground());
+            app.use("/playground", playground());
         }
 
         /**
